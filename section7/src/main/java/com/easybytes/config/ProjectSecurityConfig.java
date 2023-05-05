@@ -1,6 +1,7 @@
 package com.easybytes.config;
 
 
+import com.easybytes.constants.ApplicationConstants;
 import com.easybytes.filter.CsrfCookieFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,15 @@ public class ProjectSecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/myaccount","/mycards","/mybalance","/myloans","/user").authenticated()
+                /*.requestMatchers("/myaccount").hasAuthority(ApplicationConstants.VIEW_ACCOUNT)
+                .requestMatchers("/mybalance").hasAnyAuthority(ApplicationConstants.VIEW_ACCOUNT,ApplicationConstants.VIEW_BALANCE)
+                .requestMatchers("/myloans").hasAuthority(ApplicationConstants.VIEW_LOANS)
+                .requestMatchers("/mycards").hasAuthority(ApplicationConstants.VIEW_CARDS)*/
+                .requestMatchers("/myaccount").hasRole("USER")
+                .requestMatchers("/mybalance").hasAnyRole("USER","ADMIN")
+                .requestMatchers("/myloans").hasRole("USER")
+                .requestMatchers("/mycards").hasRole("USER")
+                .requestMatchers("/user").authenticated()
                 .requestMatchers("/notices","contact","/register").permitAll()
                 .and()
                 .formLogin()
