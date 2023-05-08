@@ -1,7 +1,9 @@
 package com.easybytes.config;
 
 
+import com.easybytes.constants.ApiConstants;
 import com.easybytes.constants.ApplicationConstants;
+import com.easybytes.filter.AuthoritiesLoggingAfterFilter;
 import com.easybytes.filter.CsrfCookieFilter;
 import com.easybytes.filter.RequestValidationBeforFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,21 +60,18 @@ public class ProjectSecurityConfig {
                 })
                 .and()
                 .csrf((csrf)->csrf.csrfTokenRequestHandler(requestAttributeHandler)
-                        .ignoringRequestMatchers("/register","/contact")
+                        .ignoringRequestMatchers(ApiConstants.REGISTER,ApiConstants.CONTACT)
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                /*.requestMatchers("/myaccount").hasAuthority(ApplicationConstants.VIEW_ACCOUNT)
-                .requestMatchers("/mybalance").hasAnyAuthority(ApplicationConstants.VIEW_ACCOUNT,ApplicationConstants.VIEW_BALANCE)
-                .requestMatchers("/myloans").hasAuthority(ApplicationConstants.VIEW_LOANS)
-                .requestMatchers("/mycards").hasAuthority(ApplicationConstants.VIEW_CARDS)*/
-                .requestMatchers("/myaccount").hasRole("USER")
-                .requestMatchers("/mybalance").hasAnyRole("USER","ADMIN")
-                .requestMatchers("/myloans").hasRole("USER")
-                .requestMatchers("/mycards").hasRole("USER")
-                .requestMatchers("/user").authenticated()
-                .requestMatchers("/notices","contact","/register").permitAll()
+                .requestMatchers(ApiConstants.ACCOUNT_DETAILS).hasRole(ApplicationConstants.ROLE_USER)
+                .requestMatchers(ApiConstants.BALANCE_DETAILS).hasAnyRole(ApplicationConstants.ROLE_USER,ApplicationConstants.ROLE_ADMIN)
+                .requestMatchers(ApiConstants.LOAN_DETAILS).hasRole(ApplicationConstants.ROLE_USER)
+                .requestMatchers(ApiConstants.CARD_DETAILS).hasRole(ApplicationConstants.ROLE_USER)
+                .requestMatchers(ApiConstants.USER_DETAILS).authenticated()
+                .requestMatchers(ApiConstants.NOTICE,ApiConstants.CONTACT,ApiConstants.REGISTER).permitAll()
                 .and()
                 .formLogin()
                 .and()
