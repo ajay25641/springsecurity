@@ -24,14 +24,14 @@ public class LoansController {
     private CustomerRepository customerRepository;
 
 
-    @PostAuthorize("hasRole('ADMIN')")
+
     @GetMapping(ApiConstants.LOAN_DETAILS)
     public List<Loans> getLoanDetails(@RequestParam String email) {
 
         List<Customer>customerList=customerRepository.findByEmail(email);
 
         if(customerList!=null && !customerList.isEmpty()){
-            List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(id);
+            List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(customerList.get(0).getId());
             if (loans != null ) {
                 return loans;
             }

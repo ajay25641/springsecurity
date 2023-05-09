@@ -13,7 +13,7 @@ import java.util.List;
 public interface LoanRepository extends CrudRepository<Loans, Long> {
 
 
-	//@PreAuthorize("hasRole('ADMIN')")
+
 	List<Loans> findByCustomerIdOrderByStartDtDesc(int customerId);
 
 }

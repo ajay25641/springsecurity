@@ -69,7 +69,7 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
 
                 .authorizeHttpRequests()
-                .requestMatchers(ApiConstants.ACCOUNT_DETAILS).hasRole(ApplicationConstants.ROLE_USER)
+                .requestMatchers(ApiConstants.ACCOUNT_DETAILS).hasRole(ApplicationConstants.ROLE_ADMIN)
                 .requestMatchers(ApiConstants.BALANCE_DETAILS).hasAnyRole(ApplicationConstants.ROLE_USER,ApplicationConstants.ROLE_ADMIN)
                 .requestMatchers(ApiConstants.LOAN_DETAILS).authenticated()
                 .requestMatchers(ApiConstants.CARD_DETAILS).hasRole(ApplicationConstants.ROLE_USER)

@@ -21,10 +21,9 @@ public class LoginController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @PostMapping(ApiConstants.REGISTER)
+
+    /*@PostMapping(ApiConstants.REGISTER)
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         Customer savedCustomer = null;
         ResponseEntity response = null;
@@ -47,7 +46,7 @@ public class LoginController {
                     .body("An exception occured due to " + ex.getMessage());
         }
         return response;
-    }
+    }*/
 
     @GetMapping(ApiConstants.USER_DETAILS)
     public Customer getUserDetailsAfterLogin(Authentication authentication) {

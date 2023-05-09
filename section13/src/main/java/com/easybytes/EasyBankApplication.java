@@ -6,8 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-//@EnableWebSecurity(debug = true)
-@EnableMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
+@EnableWebSecurity(debug = true)
 public class EasyBankApplication {
 
 	public static void main(String[] args) {
